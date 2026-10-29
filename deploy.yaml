@@ -28,25 +28,20 @@ jobs:
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
       with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+        username: bhxrxth0409
+        password: dckr_pat_ndQQeCohkZUGEC5Gj_S4yPTu4FI
 
     - name: Build and Push Docker Image
       run: |
         IMAGE_TAG=${{ github.sha }}
-        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/shopping-calculator:$IMAGE_TAG .
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/shopping-calculator:$IMAGE_TAG
-
-    - name: Setup kubeconfig
-      run: |
-        mkdir -p ~/.kube
-        echo "${{ secrets.KUBECONFIG_DATA }}" | base64 --decode > ~/.kube/config
+        docker build -t bhxrxth0409/shopping-calculator:$IMAGE_TAG .
+        docker push bhxrxth0409/shopping-calculator:$IMAGE_TAG
 
     - name: Deploy to Kubernetes
       run: |
         IMAGE_TAG=${{ github.sha }}
         # Dynamically inject the unique image tag into the manifest
         sed -i "s/IMAGE_TAG/$IMAGE_TAG/g" k8s/deployment.yaml
-        sed -i "s/DOCKERHUB_USERNAME/${{ secrets.DOCKERHUB_USERNAME }}/g" k8s/deployment.yaml
+        sed -i "s/bhxrxth0409/bhxrxth0409/g" k8s/deployment.yaml
         kubectl apply -f k8s/deployment.yaml
         kubectl apply -f k8s/service.yaml
