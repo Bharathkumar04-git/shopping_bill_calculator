@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shopping-calculator
+  labels:
+    app: shopping-calculator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: shopping-calculator
+  template:
+    metadata:
+      labels:
+        app: shopping-calculator
+  images:
+    spec:
+      containers:
+      - name: shopping-calculator
+        image: bhxrxth0409/shopping-calculator:IMAGE_TAG
+        imagePullPolicy: Always
